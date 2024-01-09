@@ -1,0 +1,122 @@
+<br>
+<br>
+<div class="heading">
+<h1>User To-Do List</h1>
+</div>
+<hr>
+  <br>
+  <br>
+  <div class="container border-0">
+    <div class="row">
+      <div class="col-6">
+        <h3 class="todoForm">To-Do List Form</h3><br><br>
+          <div class="container" class="todoForm">
+        <form [formGroup]="TaskForm" (ngSubmit)="addTask()">
+            
+                <div class="row">
+                 <div class="col-6">
+                  <div class="form-floating mb-3">
+                    <input type="number" required class="form-control" formControlName="taskId" id="taskId" placeholder="Task id">
+                    <label for="floatingInput">Task id</label>
+                  </div>
+                </div>
+              </div>
+             <div class="row">
+                <div class="col-6">
+              <div class="form-floating mb-3">
+                <input type="text" required class="form-control" formControlName="taskName" id="taskName" placeholder="Task name">
+                <label for="floatingInput">Task Name</label>
+
+              </div>
+            </div>
+        </div>
+              <div class="row">
+                <div class="col-6">
+              <div class="form-floating mb-3">
+                <input type="date" required class="form-control" formControlName="startDate" id="startDate" placeholder="startDate">
+                <label for="floatingInput">startDate </label>
+              </div>
+            </div>
+        </div>
+              <div class="row">
+                <div class="col-6">
+              <div class="form-floating mb-3">
+                <input type="date" required class="form-control" formControlName="dueDate" id="dueDate" placeholder="dueDate">
+                <label for="floatingInput">Due Date</label>
+              </div>
+            </div>
+        </div>
+              <div class="row">
+                <div class="col-6">
+              <div class="form-floating mb-3">
+                <select required class="form-control" formControlName="priority" id="priority">
+                  <option value="" disabled selected>Select Priority</option>
+                  <option value="High">High</option>
+                  <option value="Medium">Medium</option>
+                  <option value="Low">Low</option>
+                </select>
+                <label for="priority">Priority</label>
+                 </div>
+            </div>
+        </div>
+              <div class="row">
+                <div class="col-6">
+              <div class="form-floating mb-3">
+                <input type="text" required class="form-control" formControlName="description" id="description" placeholder="description">
+                <label for="floatingInput">Description</label>   
+              </div>
+            </div>
+        </div>
+              <br>
+              <div class="form-floating mb-3">
+               <input type="submit" *ngIf="!isUpdateTask" [disabled]="TaskForm.invalid" class="btn btn-primary" value="Add"/>
+               <input type="submit" *ngIf="isUpdateTask" [disabled]="TaskForm.invalid" class="btn btn-primary" value="Update"/>
+               &nbsp;&nbsp;
+               <input type="button" class="btn btn-primary" value="Cancel" (click)="clearForm()"/>
+               &nbsp;&nbsp;
+              </div>
+         
+        </form>
+    </div>
+    <br>
+      </div>
+   <div class="col-6">
+    <div class="listTask">
+    <input type="button" class="btn btn-success" value="Completed Tasks" (click)="getcompletedTasks()"/>
+    &nbsp;&nbsp;
+    <input type="button" class="btn btn-danger" value="New Task List" (click)="getAllTaskList()"/>
+  </div>
+    <br><br>
+        <table class="table table-bordered taskTable" *ngIf="ListOfTask!=null && ListOfTask.length>0">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Start Date</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Discription</th>
+                    <th *ngIf="isListView">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let task of ListOfTask">
+                    <td>{{task.taskId}}</td>
+                    <td>{{task.taskName}}</td>
+                    <td>{{task.startDate | date:"dd/MM/yyyy"}}</td>
+                    <td>{{task.dueDate |date:"dd/MM/yyyy" }}</td>
+                    <td>{{task.priority}}</td>
+                    <td>{{task.description }}</td>
+                   
+                    <td *ngIf="isListView" class="actions">
+                          <i class="fa fa-pencil-square-o fa-2x text-primary" aria-hidden="true" (click)="editTask(task)" title="Edit task"></i>&nbsp;
+                          <i class="fa fa-trash-o fa-2x text-danger" aria-hidden="true" (click)="deleteTask(task.taskId)" title="Delete task"></i>&nbsp;
+                          <i class="fa fa-check fa-2x text-success" aria-hidden="true" value="Completed" (click)="completedTask(task.taskId)" title="Task completed"></i>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    </div>
+
